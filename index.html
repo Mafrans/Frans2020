@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,600;0,700;0,800;1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito Sans', sans-serif;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 5rem;
+            
+            position: relative;
+            margin-top: 40vh;
+            width: 100vw;
+            transform: translateY(-100%);
+            font-family: 'Lobster', serif;
+        }
+
+        p {
+            font-weight: 800;
+            font-size: 1.5rem;
+            width: 50%;
+            text-align: center;
+        }
+
+        .rainbow span {
+            position: relative;
+            margin-left: 0.5rem;
+        }
+
+        .center {
+            display: flex; 
+            justify-content: space-around;
+        }
+
+        .time {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="rainbow">Grattis Frans!</h1>
+    <div class="center">
+        <p>
+            Som födelsedagspresent från mig får du nu kunskapen att alla nu tror att jag heter Frans eftersom mitt användarnamn är Mafrans. <br>
+            <br>
+            Det är ditt fel.
+        </p>
+    </div>
+    <br>
+    <div class="center"><p>. . .</p></div>
+    <br>
+    <div class="center">
+        <p>
+            Den här sidan skulle egentligen ha skickats till dig för <span class="time"></span> sekunder sedan, men jag var för lat.
+        </p>
+    </div>
+</body>
+<script>
+    const $ = (a) => document.querySelector(a);
+    const _$ = (a) => document.querySelectorAll(a);
+
+    for(let e of _$('.rainbow')) {
+        const text = e.textContent;
+        e.textContent = '';
+        for(let char of text.split('')) {
+            const c = document.createElement('span');
+            c.textContent = char;
+            e.appendChild(c);
+        }
+    }
+
+    let time = 0;
+    let lastTime = Date.now();
+    const update = () => {
+        deltaTime = (Date.now() - lastTime)/1000;
+        lastTime = Date.now();
+        
+        let i = 0;
+        _$('.rainbow span').forEach(e => {
+            e.style.color = `hsl(${((i + time) * 20 % 360)}, 100%, 50%)`;
+            e.style['top'] = `${Math.sin((i+time/2))*5}px`;
+
+            if(e.textContent != ' ' && e.textContent != '\n') {
+                i++;
+            }
+        });
+        console.log(deltaTime);
+        time += deltaTime * 10;
+
+        _$('.time').forEach(e => e.textContent = Math.round((Date.now() - new Date(2020, 7, 9)) / 1000));
+
+        window.requestAnimationFrame(update);
+    };
+
+    update();
+    
+</script>
+</html>
